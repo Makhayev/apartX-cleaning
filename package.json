@@ -9,16 +9,32 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^1.4.0",
+    "eslint-config-prettier": "^8.8.0",
     "next": "13.4.7",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.45.0",
+    "react-query": "^3.39.3"
   },
   "devDependencies": {
     "@types/node": "20.3.1",
     "@types/react": "18.2.13",
     "@types/react-dom": "18.2.6",
-    "eslint": "8.43.0",
-    "eslint-config-next": "13.4.7",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "eslint": "^8.43.0",
+    "eslint-config-next": "^13.4.7",
+    "eslint-plugin-compat": "^4.1.4",
+    "eslint-plugin-functional": "^5.0.8",
+    "eslint-plugin-next": "^0.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-tailwindcss": "^3.12.1",
+    "eslint-plugin-typescript-sort-keys": "^2.3.0",
+    "husky": "^8.0.3",
+    "postcss": "^8.4.24",
+    "postcss-loader": "^7.3.3",
+    "prettier": "^2.8.8",
+    "tailwindcss": "^3.3.2",
     "typescript": "5.1.3"
   }
 }
