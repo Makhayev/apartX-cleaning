@@ -14,7 +14,7 @@ const Home: NextPage = () => (
         Apart-X cleaning app
       </div>
       <div className="mt-10 flex justify-center text-Bold20">
-        Coming soon...
+        Coming soon... salam aleikum
       </div>
     </main>
   </div>
