@@ -15,6 +15,7 @@
     "axios": "^1.4.0",
     "clsx": "^1.2.1",
     "eslint-config-prettier": "^8.8.0",
+    "i18next": "^23.2.3",
     "mobx": "^6.9.0",
     "mobx-react-lite": "^3.4.3",
     "next": "13.4.7",
@@ -23,6 +24,7 @@
     "react-auth-code-input": "^3.2.1",
     "react-dom": "18.2.0",
     "react-hook-form": "7.39",
+    "react-i18next": "^13.0.1",
     "react-number-format": "^5.2.2",
     "react-query": "^3.39.3"
   },

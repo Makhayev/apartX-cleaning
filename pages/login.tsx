@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useMutation } from "react-query";
 
 import { Button, Segmented } from "antd";
@@ -61,10 +62,9 @@ const Login = () => {
         })
         .catch((err) => {
           console.log(err);
-          enqueueSnackbar("Error", { variant: "error" });
         });
     }
-  }, [enqueueSnackbar, router]);
+  }, [router]);
 
   useEffect(() => {
     getUserInfoByToken();
@@ -141,6 +141,8 @@ const Login = () => {
     handleRegisterSubmit(onRegisterSubmit)();
   }, [handleRegisterSubmit, onRegisterSubmit]);
 
+  const { t } = useTranslation();
+
   return (
     <main
       style={{
@@ -155,7 +157,7 @@ const Login = () => {
         <div className="mt-8 flex h-fit w-1/2 justify-center rounded-3xl bg-white/70 py-16 shadow-sm shadow-gray">
           {step === "login" && (
             <div className="flex h-full w-1/2 flex-col items-center justify-evenly">
-              <div className="text-Thin40">Log in</div>
+              <div className="text-Thin40">{t("loginPage.logIn")}</div>
               <div className="w-full">
                 <Controller
                   render={({ field }) => (

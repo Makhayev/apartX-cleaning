@@ -45,7 +45,7 @@ export const InputText = forwardRef<HTMLDivElement, InputTextProps>(
             {isPhone ? (
               <div>
                 <PatternFormat
-                  className="w-full border-0 bg-primaryBlue text-Regular16 text-dark focus:border-0 focus-visible:border-0 focus-visible:outline-none active:border-0"
+                  className="w-full border-0 bg-[#DEDEDE]/10 text-Regular16 text-dark focus:border-0 focus-visible:border-0 focus-visible:outline-none active:border-0"
                   format="+7 (###) ### ## ##"
                   onChange={(event) => onChange(event)}
                   mask="_"

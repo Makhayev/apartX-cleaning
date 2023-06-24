@@ -10,6 +10,7 @@ import { SnackbarProvider } from "notistack";
 
 import { MainLayout } from "@/layouts/MainLayout";
 
+import "config/i18n";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
