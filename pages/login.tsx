@@ -5,12 +5,14 @@ import { useMutation } from "react-query";
 import { Button, Segmented } from "antd";
 import clsx from "clsx";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 
 import { AuthApi } from "@/api";
 import { InputCode } from "@/components/molecules/InputCode";
 import { InputText } from "@/components/molecules/InputText";
 import type { roles } from "@/store/User/User";
+import { User } from "@/store/User/User";
 
 type Steps = "login" | "register" | "verify";
 
@@ -32,18 +34,42 @@ interface RegisterForm {
 
 const Login = () => {
   const [step, setStep] = useState<Steps>("login");
+  const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const [email, setEmail] = useState<string>("");
   const { control, handleSubmit } = useForm<LoginForm>();
   const { control: registerControl, handleSubmit: handleRegisterSubmit } =
     useForm<RegisterForm>();
-  useEffect(() => {
+
+  const getUserInfoByToken = useCallback(() => {
     if (localStorage?.getItem("access_token")) {
-      AuthApi.getUserInfo().then((response) => {
-        console.log(response.data);
-      });
+      AuthApi.getUserInfo()
+        .then((response) => {
+          User.assignUser({
+            auth: true,
+            surname: response?.data?.lastname,
+            name: response?.data?.firstname,
+            email: response?.data?.email,
+            role: response?.data?.role,
+            iin: response?.data?.iin,
+          });
+          if (response?.data?.role === "LANDLORD") {
+            router.push("/landlord");
+          } else if (response?.data?.role === "CLEANER") {
+            router.push("/cleaner");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          enqueueSnackbar("Error", { variant: "error" });
+        });
     }
-  }, []);
+  }, [enqueueSnackbar, router]);
+
+  useEffect(() => {
+    getUserInfoByToken();
+  }, [getUserInfoByToken]);
+
   const { mutate: login } = useMutation(
     ["login"],
     (values: { email: string; password: string }) =>
@@ -55,6 +81,7 @@ const Login = () => {
         localStorage.setItem("access_token", data?.access_token);
         localStorage.setItem("refresh_token", data?.refresh_token);
         enqueueSnackbar("Success", { variant: "success" });
+        getUserInfoByToken();
       },
       onError: () => {
         enqueueSnackbar("Error", { variant: "error" });
@@ -362,7 +389,7 @@ const Login = () => {
                           "refresh_token",
                           res?.data?.refresh_token
                         );
-                        setStep("login");
+                        getUserInfoByToken();
                       }
                     });
                   }

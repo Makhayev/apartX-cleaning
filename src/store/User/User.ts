@@ -9,6 +9,7 @@ class _User {
   name?: string;
   id?: string;
   surname?: string;
+  iin?: string;
   age?: number;
   constructor() {
     makeAutoObservable(this);
@@ -23,6 +24,16 @@ class _User {
     //     }
     //   }
     // }
+  }
+
+  assignUser(user: Partial<_User>) {
+    this.auth = user.auth ?? false;
+    this.email = user.email;
+    this.role = user.role;
+    this.name = user.name;
+    this.id = user.id;
+    this.surname = user.surname;
+    this.age = user.age;
   }
 }
 
