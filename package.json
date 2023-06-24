@@ -10,8 +10,11 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "antd": "^5.6.2",
     "axios": "^1.4.0",
     "eslint-config-prettier": "^8.8.0",
+    "mobx": "^6.9.0",
+    "mobx-react-lite": "^3.4.3",
     "next": "13.4.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -28,6 +31,7 @@
     "eslint-config-next": "^13.4.7",
     "eslint-plugin-compat": "^4.1.4",
     "eslint-plugin-functional": "^5.0.8",
+    "eslint-plugin-mobx": "^0.0.9",
     "eslint-plugin-next": "^0.0.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-tailwindcss": "^3.12.1",

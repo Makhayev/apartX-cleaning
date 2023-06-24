@@ -29,6 +29,7 @@ module.exports = {
     "tailwindcss",
     "import",
     "typescript-sort-keys",
+    "mobx",
   ],
   rules: {
     "@next/next/no-img-element": "off",
