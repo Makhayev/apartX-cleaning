@@ -8,6 +8,7 @@ module.exports = {
     colors: {
       dark: "#030602",
       white: "#FFFFFF",
+      primaryBlue: "#1195FF",
     },
     fontSize: {
       Regular10: [
