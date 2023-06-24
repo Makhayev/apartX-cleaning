@@ -6,7 +6,6 @@ import locale from "antd/locale/ru_RU";
 import { observer } from "mobx-react-lite";
 import type { AppProps } from "next/app";
 import "dayjs/locale/ru";
-
 import { SnackbarProvider } from "notistack";
 
 import { MainLayout } from "@/layouts/MainLayout";

@@ -1,7 +1,5 @@
 import { makeAutoObservable } from "mobx";
 
-import { AuthApi } from "@/api";
-
 export type roles = "CLEANER" | "LANDLORD";
 
 class _User {
