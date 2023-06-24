@@ -1,10 +1,11 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useMutation } from "react-query";
 
 import { Button, Segmented } from "antd";
 import clsx from "clsx";
 import Image from "next/image";
+import { useSnackbar } from "notistack";
 
 import { AuthApi } from "@/api";
 import { InputCode } from "@/components/molecules/InputCode";
@@ -31,41 +32,53 @@ interface RegisterForm {
 
 const Login = () => {
   const [step, setStep] = useState<Steps>("login");
+  const { enqueueSnackbar } = useSnackbar();
   const [email, setEmail] = useState<string>("");
   const { control, handleSubmit } = useForm<LoginForm>();
   const { control: registerControl, handleSubmit: handleRegisterSubmit } =
     useForm<RegisterForm>();
-
+  useEffect(() => {
+    if (localStorage?.getItem("access_token")) {
+      AuthApi.getUserInfo().then((response) => {
+        console.log(response.data);
+      });
+    }
+  }, []);
   const { mutate: login } = useMutation(
     ["login"],
     (values: { email: string; password: string }) =>
-      AuthApi.loginByEmail(values.email, values.password),
+      AuthApi.loginByEmail(values.email, values.password).then(
+        (response) => response.data
+      ),
     {
-      onSuccess: () => {
-        console.log("success");
+      onSuccess: (data) => {
+        localStorage.setItem("access_token", data?.access_token);
+        localStorage.setItem("refresh_token", data?.refresh_token);
+        enqueueSnackbar("Success", { variant: "success" });
       },
       onError: () => {
-        console.log("error");
+        enqueueSnackbar("Error", { variant: "error" });
       },
     }
   );
 
   const { mutate: register } = useMutation(
     ["register"],
-    (values: RegisterForm) => {
-      console.log(values);
-      return AuthApi.register(
+    (values: RegisterForm) =>
+      AuthApi.register(
         values?.email ?? "",
         values?.password ?? "",
-        values.role
-      );
-    },
+        values.role,
+        values?.firstName ?? "",
+        values?.lastName ?? "",
+        values?.IIN ?? ""
+      ),
     {
       onSuccess: () => {
-        console.log("success");
+        enqueueSnackbar("Success", { variant: "success" });
       },
       onError: () => {
-        console.log("error");
+        enqueueSnackbar("Error", { variant: "error" });
       },
     }
   );
@@ -73,8 +86,7 @@ const Login = () => {
   const onSubmit = useCallback(
     async (values: LoginForm) => {
       try {
-        const data = await login(values);
-        console.log(data);
+        await login(values);
       } catch (err: unknown) {
         console.log(err);
       }
@@ -89,8 +101,7 @@ const Login = () => {
   const onRegisterSubmit = useCallback(
     async (values: RegisterForm) => {
       try {
-        const data = await register(values);
-        console.log(data);
+        await register(values);
         setStep("verify");
       } catch (err: unknown) {
         console.log(err);
@@ -342,7 +353,7 @@ const Login = () => {
                 onChange={(value) => {
                   if (value.length === 4) {
                     AuthApi.verifyEmail(email, value).then((res) => {
-                      if (res?.data?.status === "SUCCESS") {
+                      if (res?.data) {
                         localStorage.setItem(
                           "access_token",
                           res?.data?.access_token

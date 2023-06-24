@@ -8,12 +8,21 @@ export const AuthApi = {
       password,
     });
   },
-  register(email: string, password: string, role: roles) {
-    console.log(email, password, role);
+  register(
+    email: string,
+    password: string,
+    role: roles,
+    firstname: string,
+    lastname: string,
+    iin: string
+  ) {
     return api.post("/auth/register", {
       email,
       password,
       role,
+      firstname,
+      lastname,
+      iin,
     });
   },
   verifyEmail(email: string, code: string) {
@@ -21,5 +30,8 @@ export const AuthApi = {
       email,
       code,
     });
+  },
+  getUserInfo() {
+    return api.get("/user/getinfo");
   },
 };

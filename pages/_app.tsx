@@ -7,6 +7,8 @@ import { observer } from "mobx-react-lite";
 import type { AppProps } from "next/app";
 import "dayjs/locale/ru";
 
+import { SnackbarProvider } from "notistack";
+
 import { MainLayout } from "@/layouts/MainLayout";
 
 const queryClient = new QueryClient({
@@ -28,9 +30,11 @@ const MyApp = observer(({ Component, pageProps }: AppProps) => (
     }}
   >
     <QueryClientProvider client={queryClient}>
-      <MainLayout>
-        <Component {...pageProps} />
-      </MainLayout>
+      <SnackbarProvider>
+        <MainLayout>
+          <Component {...pageProps} />
+        </MainLayout>
+      </SnackbarProvider>
     </QueryClientProvider>
   </ConfigProvider>
 ));
