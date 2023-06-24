@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { PatternFormat } from "react-number-format";
 
+import type { InputRef } from "antd";
 import { Input } from "antd";
 import clsx from "clsx";
 
@@ -23,7 +24,7 @@ export const InputText = forwardRef<HTMLDivElement, InputTextProps>(
     },
     ref
   ) => {
-    const inputRef = useRef(null);
+    const inputRef = useRef<InputRef>(null);
     const [isFocused, setIsFocused] = useState<boolean>(!!value);
     useEffect(() => {
       setIsFocused(!!value);
