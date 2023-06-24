@@ -9,8 +9,32 @@ module.exports = {
       dark: "#030602",
       white: "#FFFFFF",
       primaryBlue: "#1195FF",
+      gray: "#808080",
+      lightGray: "#D3D3D3",
+      red: "#FF0000",
     },
     fontSize: {
+      Thin16: [
+        "1rem",
+        {
+          lineHeight: "1.25rem",
+          fontWeight: "200",
+        },
+      ],
+      Thin20: [
+        "1.25rem",
+        {
+          lineHeight: "1.5rem",
+          fontWeight: "200",
+        },
+      ],
+      Thin40: [
+        "2.5rem",
+        {
+          lineHeight: "3rem",
+          fontWeight: "200",
+        },
+      ],
       Regular10: [
         "0.625rem",
         {

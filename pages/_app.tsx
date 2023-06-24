@@ -1,13 +1,38 @@
 import "../styles/globals.css";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+import { ConfigProvider } from "antd";
+import locale from "antd/locale/ru_RU";
 import { observer } from "mobx-react-lite";
 import type { AppProps } from "next/app";
+import "dayjs/locale/ru";
 
 import { MainLayout } from "@/layouts/MainLayout";
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 const MyApp = observer(({ Component, pageProps }: AppProps) => (
-  <MainLayout>
-    <Component {...pageProps} />
-  </MainLayout>
+  <ConfigProvider
+    locale={locale}
+    theme={{
+      token: {
+        colorPrimary: "#1195FF",
+      },
+    }}
+  >
+    <QueryClientProvider client={queryClient}>
+      <MainLayout>
+        <Component {...pageProps} />
+      </MainLayout>
+    </QueryClientProvider>
+  </ConfigProvider>
 ));
 
 export default MyApp;

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 
-type roles = "CLEANER" | "LANDLORD";
+export type roles = "CLEANER" | "LANDLORD";
 
 class _User {
   auth: boolean = false;
