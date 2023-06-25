@@ -196,7 +196,7 @@ const Login = () => {
                   )}
                 />
                 <div className="mt-2 flex cursor-pointer justify-end text-Thin16 italic">
-                  I forgot my password
+                  {t("loginPage.forgotPassword")}
                 </div>
               </div>
               <div className="mt-8 w-full">
@@ -204,11 +204,11 @@ const Login = () => {
                   className="h-10 w-full rounded-xl bg-primaryBlue text-white"
                   onClick={handleOnSubmit}
                 >
-                  Log in
+                  {t("loginPage.logIn")}
                 </Button>
                 <div className="mt-2 flex w-full justify-between">
                   <div className="cursor-pointer text-Thin16 italic">
-                    Don&apos;t have an account?
+                    {t("loginPage.dontHaveAccount")}
                   </div>
                   <div
                     className="cursor-pointer text-Bold16 italic text-primaryBlue underline"
@@ -216,7 +216,7 @@ const Login = () => {
                       setStep("register");
                     }}
                   >
-                    Sign up
+                    {t("loginPage.signUp")}
                   </div>
                 </div>
               </div>

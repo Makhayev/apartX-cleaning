@@ -1,4 +1,5 @@
 import { forwardRef, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { PatternFormat } from "react-number-format";
 
 import type { InputRef } from "antd";
@@ -24,6 +25,7 @@ export const InputText = forwardRef<HTMLDivElement, InputTextProps>(
     },
     ref
   ) => {
+    const { t } = useTranslation();
     const inputRef = useRef<InputRef>(null);
     const [isFocused, setIsFocused] = useState<boolean>(!!value);
     useEffect(() => {
@@ -52,7 +54,7 @@ export const InputText = forwardRef<HTMLDivElement, InputTextProps>(
                   name={name}
                   value={value ?? null}
                   disabled={disabled}
-                  placeholder="Ваш номер телефона"
+                  placeholder={t("indexPage.phonePlaceholder")}
                 />
               </div>
             ) : (
