@@ -110,6 +110,7 @@ i18n.use(initReactI18next).init({
         cleanerPage: {
           logOut: "Выйти",
           orders: "Заказы",
+          moreDetails: "Подробнее",
         },
       },
     },
@@ -217,6 +218,7 @@ i18n.use(initReactI18next).init({
         cleanerPage: {
           logOut: "Log out",
           orders: "Orders",
+          moreDetails: "More details",
         },
       },
     },
@@ -325,6 +327,7 @@ i18n.use(initReactI18next).init({
         cleanerPage: {
           logOut: "Аккаунттан Шығу",
           orders: "Тапсырыстар",
+          moreDetails: "Толығырақ",
         },
       },
     },

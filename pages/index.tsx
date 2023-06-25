@@ -286,6 +286,7 @@ const BathroomSelector: React.FC = () => {
 };
 
 const Home: NextPage = observer(() => {
+  useEffect(() => {}, []);
   const router = useRouter();
   useEffect(() => {
     if (localStorage?.getItem("access_token")) {
@@ -409,7 +410,12 @@ const Home: NextPage = observer(() => {
               setPhone(event.target.value);
             }}
           />
-          <button className="flex w-full cursor-pointer items-center justify-center rounded border-none bg-[#1195FF] p-3 text-white outline-none hover:bg-[#1195FF]/80">
+          <button
+            className="flex w-full cursor-pointer items-center justify-center rounded border-none bg-[#1195FF] p-3 text-white outline-none hover:bg-[#1195FF]/80"
+            onClick={() =>
+              router.push(User.role === "LANDLORD" ? "/landlord" : "/login")
+            }
+          >
             {t("indexPage.calculatePrice")}
           </button>
         </div>
