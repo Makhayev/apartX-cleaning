@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "react-query";
 
+import { LeftOutlined } from "@ant-design/icons";
 import { Button, Segmented } from "antd";
 import clsx from "clsx";
 import Image from "next/image";
@@ -223,6 +224,15 @@ const Login = () => {
           )}
           {step === "register" && (
             <div className="flex h-full w-4/5 flex-col items-center justify-evenly">
+              <div
+                className="mb-8 flex w-full cursor-pointer justify-start"
+                onClick={() => {
+                  setStep("login");
+                }}
+              >
+                <LeftOutlined className="text-primaryBlue" />
+                <div className="ml-2 text-primaryBlue">Back to login</div>
+              </div>
               <div className="flex w-full">
                 <Controller
                   render={({ field }) => (
@@ -373,10 +383,10 @@ const Login = () => {
           {step === "verify" && (
             <div className="flex h-full w-4/5 flex-col items-center justify-evenly">
               <div className="text-Thin40">Sign up</div>
-              <div className="text-Bold20">Enter verification code</div>
-              <div className="text-Thin16">
+              <div className="mt-2 text-Bold20">Enter verification code</div>
+              <div className="mt-2 text-Thin16">
                 We&apos;ve sent a code to
-                <span className="text-Bold16 italic">{email}</span>
+                <span className="ml-2 text-Bold16 italic">{email}</span>
               </div>
               <InputCode
                 onChange={(value) => {
@@ -407,7 +417,7 @@ const Login = () => {
               </div>
               <div>
                 <Button
-                  className="h-10 w-full rounded-xl bg-primaryBlue text-white"
+                  className="mt-2 h-10 w-full rounded-xl bg-primaryBlue text-white"
                   onClick={() => {
                     setStep("register");
                   }}

@@ -338,7 +338,20 @@ const Home: NextPage = observer(() => {
             <li>BLOG</li>
             <li className="">CONTACT</li>
             {User.auth ? (
-              <li>Welcome, {User.name}</li>
+              <li
+                className="cursor-pointer"
+                onClick={() => {
+                  router.push(
+                    User.role === "LANDLORD"
+                      ? "/landlord"
+                      : User.role === "CLEANER"
+                      ? "cleaner"
+                      : "/"
+                  );
+                }}
+              >
+                Welcome, {User.name}
+              </li>
             ) : (
               <li>
                 <button
@@ -349,9 +362,9 @@ const Home: NextPage = observer(() => {
                 >
                   Log in
                 </button>
-                <LanguagePopover />
               </li>
             )}
+            <LanguagePopover />
           </ul>
         </nav>
       </header>

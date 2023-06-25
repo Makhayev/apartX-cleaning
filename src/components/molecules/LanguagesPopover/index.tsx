@@ -43,7 +43,7 @@ export const LanguagePopover = ({
   return (
     <Popover
       className={clsx("cursor-pointer", {
-        "absolute top-12 right-10": isLogin,
+        "absolute top-10 right-10": isLogin,
       })}
       content={LanguagesList}
       trigger="click"

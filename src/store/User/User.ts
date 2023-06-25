@@ -35,6 +35,17 @@ class _User {
     this.surname = user.surname;
     this.age = user.age;
   }
+
+  logout() {
+    this.auth = false;
+    this.email = undefined;
+    this.role = undefined;
+    this.name = undefined;
+    this.id = undefined;
+    this.surname = undefined;
+    this.age = undefined;
+    localStorage.clear();
+  }
 }
 
 export const User = new _User();
