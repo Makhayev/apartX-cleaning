@@ -70,10 +70,10 @@ module.exports = {
           fontWeight: "400",
         },
       ],
-      Medium12: [
-        "0.75rem",
+      Regular28: [
+        "1.75rem",
         {
-          lineHeight: "1rem",
+          lineHeight: "2rem",
           fontWeight: "500",
         },
       ],
