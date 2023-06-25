@@ -23,4 +23,27 @@ export const LandlordApi = {
       bathNumber,
     });
   },
+  getMyApartments() {
+    return api.get("/landlord/apartments");
+  },
+  getServices() {
+    return api.get("/home/services");
+  },
+  postOrder(
+    apartmentId: number,
+    description: string,
+    serviceIds: number[],
+    dateTime: string,
+    cleaningType: string,
+    desiredPrice: number
+  ) {
+    return api.post("/landlord/post_order", {
+      apartmentId,
+      description,
+      serviceIds,
+      dateTime,
+      cleaningType,
+      desiredPrice,
+    });
+  },
 };

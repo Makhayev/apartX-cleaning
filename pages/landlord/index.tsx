@@ -1,17 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { CloseOutlined, DownOutlined, UploadOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Button, Dropdown, Image, Segmented, Space } from "antd";
+import {
+  Button,
+  DatePicker,
+  Dropdown,
+  Image,
+  Modal,
+  Segmented,
+  Select,
+  Space,
+} from "antd";
+import type { AxiosResponse } from "axios";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useSnackbar } from "notistack";
 
-import { AuthApi, LandlordApi } from "@/api";
+import { AuthApi } from "@/api";
+import { LandlordApi } from "@/api/LandlordApi";
 import { InputText } from "@/components/molecules/InputText";
 import { User } from "@/store/User/User";
 
 const LandlordPage = () => {
   const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
   const [cities, setCities] = useState<{ id: number; name: string }[]>([]);
   const [city, setCity] = useState<number>(0);
   const [area, setArea] = useState<number>(0);
@@ -20,10 +35,25 @@ const LandlordPage = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [rooms, setRooms] = useState<number>(1);
   const [baths, setBaths] = useState<number>(1);
+  const [apartments, setApartments] = useState<any[]>([]);
+  const [modal, setModal] = useState<boolean>(false);
+  const [apartmentId, setApartmentId] = useState<number>(0);
+  const [services, setServices] = useState<any[]>([]);
+  const [modalPrice, setModalPrice] = useState<number>(0);
+  const [modalDescription, setModalDescription] = useState<string>("");
+  const [modalDate, setModalDate] = useState<string>("");
+  const [modalServicesId, setModalServicesId] = useState<number[]>([]);
+  const [modalCleanMode, setModalCleanMode] = useState<
+    "STANDARD" | "DEEPCLEAN"
+  >("STANDARD");
+
   useEffect(() => {
-    LandlordApi.getCities().then((response) => {
+    LandlordApi.getCities().then((response: AxiosResponse) => {
       setCities(response?.data);
       setCity(response?.data[0]?.id);
+    });
+    LandlordApi.getServices().then((response: AxiosResponse) => {
+      setServices(response?.data);
     });
   }, []);
   useEffect(() => {
@@ -62,6 +92,13 @@ const LandlordPage = () => {
       })),
     [cities]
   );
+  useEffect(() => {
+    LandlordApi.getMyApartments().then((response: AxiosResponse) => {
+      console.log(response.data, "apartments");
+      setApartments(response?.data);
+    });
+  }, []);
+
   const inputRef = useRef<HTMLInputElement>(null);
   const handleAddApartment = useCallback(async () => {
     const urls: string[] = [];
@@ -96,7 +133,7 @@ const LandlordPage = () => {
           description,
           urls,
           baths
-        ).then((response) => {
+        ).then((response: AxiosResponse) => {
           console.log(response?.data);
         });
       });
@@ -319,6 +356,121 @@ const LandlordPage = () => {
           </div>
         </div>
       </div>
+      <div className="mb-20 flex w-full justify-center">
+        <div className="flex w-full flex-col items-center justify-center">
+          {apartments?.map((apartment) => (
+            <div
+              key={apartment?.id}
+              className="mt-10 flex h-fit w-1/2 flex-col rounded-lg bg-white/80 p-10 shadow-sm shadow-gray"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Image
+                    alt="apartment"
+                    src={apartment?.imageUrls[0] ?? ""}
+                    width={100}
+                    preview={false}
+                  />
+                  <div className="ml-4">
+                    <div>
+                      city:
+                      {
+                        (cities ?? [])?.find(
+                          (cityFind) => cityFind?.id === apartment?.id
+                        )?.name
+                      }
+                    </div>
+                    <div>address: {apartment?.address}</div>
+                    <div>
+                      rooms: {apartment?.roomNumber}, baths:{" "}
+                      {apartment?.bathNumber}
+                    </div>
+                    <div>description: {apartment?.description}</div>
+                  </div>
+                </div>
+                <Button
+                  className="h-10 w-32 rounded-xl bg-primaryBlue text-white"
+                  onClick={() => {
+                    setModal(true);
+                    setApartmentId(apartment?.id ?? "");
+                  }}
+                >
+                  Clean
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <Modal
+        open={modal}
+        onCancel={() => {
+          setModal(false);
+        }}
+        onOk={() => {
+          LandlordApi.postOrder(
+            apartmentId,
+            modalDescription,
+            modalServicesId,
+            modalDate,
+            modalCleanMode,
+            modalPrice
+          ).then(() => {
+            enqueueSnackbar("Заказ успешно создан", {
+              variant: "success",
+            });
+          });
+          setModal(false);
+        }}
+      >
+        <div className="mt-10">
+          <div className="mb-4 text-Bold20">Вызвать клининг</div>
+          <InputText
+            label="price"
+            name="price"
+            onChange={(event) => {
+              setModalPrice(parseInt(event.target.value));
+            }}
+          />
+          <InputText
+            wrapperClassName={"my-2"}
+            label="description"
+            name="description"
+            onChange={(event) => {
+              setModalDescription(event.target.value);
+            }}
+          />
+          <DatePicker
+            onChange={(date) => {
+              setModalDate(date?.toDate()?.toISOString() ?? "");
+            }}
+          />
+          <Select
+            mode="multiple"
+            allowClear
+            className="my-4 w-full"
+            options={services?.map((service) => ({
+              label: `${service?.name} - ${service?.price}T`,
+              value: service?.id,
+            }))}
+            onChange={(value) => {
+              setModalServicesId(value);
+            }}
+          />
+          <Segmented
+            options={[
+              { label: "standard", value: "STANDARD" },
+              { label: "deep clean", value: "DEEPCLEAN" },
+            ]}
+            value={modalCleanMode}
+            onChange={(value) => {
+              console.log(value);
+              setModalCleanMode(value as "STANDARD" | "DEEPCLEAN");
+            }}
+            size="large"
+          />
+        </div>
+      </Modal>
     </div>
   );
 };
